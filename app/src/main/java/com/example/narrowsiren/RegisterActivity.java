@@ -42,6 +42,11 @@ public class RegisterActivity extends AppCompatActivity {
                 String userPass = et_pass.getText().toString();
                 String userEmail = et_email.getText().toString();
 
+                if (userID.isEmpty() || userPass.isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Please type in above", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
