@@ -2,155 +2,74 @@ package com.example.narrowsiren;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatImageView;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RegisterActivity extends AppCompatActivity{
+public class RegisterActivity extends AppCompatActivity {
 
-    private String userID;
-    private String userPassword;
-    private String userEmail;
-    private AlertDialog dialog;
-    private boolean validate = false;
+    private EditText et_id, et_pass, et_email;
+    private Button btn_register;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        StrictMode.enableDefaults();
+        //ID 값 찾아주기
+        et_id = findViewById(R.id.et_id);
+        et_pass = findViewById(R.id.et_pass);
+        et_email = findViewById(R.id.et_email);
 
-        final EditText idText = (EditText) findViewById(R.id.idText);
-        final EditText passwordText = (EditText) findViewById(R.id.passwordText);
-        final EditText emailText = (EditText) findViewById(R.id.emailText);
-
-        final Button validateButton = (Button) findViewById(R.id.validateButton);
-        validateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                String userID = idText.getText().toString();
-                if(validate){
-                    return;
-                }
-                if(userID.equals("")) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                    dialog = builder.setMessage("ID cannot be blank")
-                            .setPositiveButton("OK", null)
-                            .create();
-                    dialog.show();
-                    return;
-                }
-
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("success");
-                            if (success) {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                                dialog = builder.setMessage("ID can be used")
-                                        .setPositiveButton("OK", null)
-                                        .create();
-                                dialog.show();
-                                idText.setEnabled(false);
-                                validate = true;
-                                idText.setBackgroundColor(getResources().getColor(R.color.colorGray));
-                                validateButton.setBackgroundColor(getResources().getColor(R.color.colorGray));
-                            }
-                            else {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                                dialog = builder.setMessage("ID cannot be used")
-                                        .setNegativeButton("OK", null)
-                                        .create();
-                                dialog.show();
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                };
-                ValidateRequest validateRequest = new ValidateRequest(userID,responseListener);
-                RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
-                queue.add(validateRequest);
-            }
-        });
-
-        Button registerButton = (Button) findViewById(R.id.registerButton);
-        registerButton.setOnClickListener(new View.OnClickListener() {
+        //회원가입 버튼 클릭 시 수정
+        btn_register = findViewById(R.id.registerButton);
+        btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String userID = idText.getText().toString();
-                String userPassword = passwordText.getText().toString();
-                String userEmail = emailText.getText().toString();
-
-                if(!validate){
-                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                    dialog = builder.setMessage("Please check if you already have account")
-                            .setNegativeButton("OK", null)
-                            .create();
-                    dialog.show();
-                    return;
-                }
-
-                if(userID.equals("") || userPassword.equals("") || userEmail.equals("")){
-                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                    dialog = builder.setMessage("No space in between")
-                            .setNegativeButton("OK", null)
-                            .create();
-                    dialog.show();
-                    return;
-                }
+                //EditText에 현재 입되어 있는 값을 력가져온다
+                String userID = et_id.getText().toString();
+                String userPass = et_pass.getText().toString();
+                String userEmail = et_email.getText().toString();
 
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("success");
+                            JSONObject jsonObject = new JSONObject(response);
+                            boolean success = jsonObject.getBoolean("success");
                             if (success) {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                                dialog = builder.setMessage("Successfully Registered")
-                                        .setPositiveButton("OK", null)
-                                        .create();
-                                dialog.show();
-                                finish();
-                            }
-                            else {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                                dialog = builder.setMessage("Unsuccessful Register")
-                                        .setNegativeButton("OK", null)
-                                        .create();
-                                dialog.show();
-                            }
-                        } catch (Exception e) {
+                                Toast.makeText(getApplicationContext(), "Successfully Registered", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                            } else { //회원등록에 실패한 경우
+                                Toast.makeText(getApplicationContext(), "Unsuccessfully Registered", Toast.LENGTH_SHORT).show();
+                                return;
+                             }
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                     }
                 };
-                RegisterRequest registerRequest = new RegisterRequest(userID, userPassword, userEmail, responseListener);
+
+                //서버로 Volley를 이용해서 요청
+                RegisterRequest registerRequest = new RegisterRequest(userID, userPass, userEmail, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
                 queue.add(registerRequest);
             }
         });
     }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (dialog != null) {
-            dialog.dismiss();
-            dialog = null;
-        }
-    }
 }
+
+

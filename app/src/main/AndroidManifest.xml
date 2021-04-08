@@ -14,9 +14,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NarrowSiren.NoActionBar">
-        
-        <uses-library android:name="org.apache.http.legcay" android:required="false"/>
-
 
         <activity android:name=".LoginActivity">
             <intent-filter>
@@ -25,7 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".RegisterActivity"/>
+        <activity android:name=".MainActivity">
+
+        </activity>
 
     </application>
 
