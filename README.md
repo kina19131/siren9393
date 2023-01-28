@@ -56,16 +56,43 @@ Run db2_deinstall -a (on all nodes including tiebreaker)
 Stress, Member soft kill, CF soft kill, TB Reboot, Member and CF Reboot are trivial. Please follow any guidances provided for regular purescale
 
 Automated: 
-- Cross Site Link Failure 
-- vLAG ISL (aka Single Site Failure) 
-- Double failure in vLANG ISLs (aka Double Site Failure) 
+a. Cross Site Link Failure 
+b. vLAG ISL (aka Single Site Failure) 
+c. Double failure in vLANG ISLs (aka Double Site Failure) 
+
+For any of the *Automated* testing, they can be found in 
+```
+PATH
+```
 
 Physical: 
-- Private Ethernet Failures
-- Storage Failures on site A, B
-- Site Failures 
-- Public network (en0) Failure 
-- Single switch failure
-- Two switch faiulres - one switch from Site A & one from Site B 
-- Both switches from single site failure 
-- 3 switch failures 
+a. Private Ethernet Failures
+b. Storage Failures on site A, B
+c. Site Failures 
+d. Public network (en0) Failure 
+e. Single switch failure
+f. Two switch faiulres - one switch from Site A & one from Site B 
+g. Both switches from single site failure 
+h. 3 switch failures 
+
+(a) 
+(b) 
+(c)
+(d) 
+(e)
+![7BD85163-88DD-4A89-9756-1235C0407F17](https://user-images.githubusercontent.com/65144979/215292088-1d0ef368-28ac-429b-bf53-3af190d068a2.jpeg)
+*Please note that this is an image to drive the concept; it is one of the examples.* 
+As you can see from the image, the connection has not been completely cut off. Thereby, they should still behave normally without failing. 
+
+(f)
+![image](https://user-images.githubusercontent.com/65144979/215292397-b8281e04-7c4d-461c-a8c1-0670f50cba0a.jpeg)
+*Please note that this is an image to drive the concept; it is one of the examples.* 
+Though there is a disconnection, the sub connections are still active. Therefore, 8a and 8c are not dead. It should operate as normal. 
+
+(g) 
+![image](https://user-images.githubusercontent.com/65144979/215292309-18a50fdc-908d-4d37-87f5-3386a1876d2c.jpeg)
+*Please note that this is an image to drive the concept; it is one of the examples.*
+In this particular case, 8a and 8c will both stop. One site will be completely down. 
+
+(h) This testing 
+
