@@ -65,15 +65,15 @@ For any of the *Automated* testing, they can be found in
 PATH
 ```
 
-Physical: 
-a. Private Ethernet Failures
-b. Storage Failures on site A, B
-c. Site Failures 
-d. Public network (en0) Failure 
-e. Single switch failure
-f. Two switch faiulres - one switch from Site A & one from Site B 
-g. Both switches from single site failure 
-h. 3 switch failures 
+Physical: <br>
+a. Private Ethernet Failures <br>
+b. Storage Failures on site A, B <br>
+c. Site Failures <br>
+d. Public network (en0) Failure <br>
+e. Single switch failure <br>
+f. Two switch faiulres - one switch from Site A & one from Site B <br>
+g. Both switches from single site failure <br>
+h. 3 switch failures <br>
 
 (a) 
 (b) 
