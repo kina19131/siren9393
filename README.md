@@ -50,3 +50,22 @@ Run db2idrop (db2idrop might say it failed because it cannot remove gpfs but in 
 Remove gpfs
 Run db2_deinstall -a (on all nodes including tiebreaker)
 ```
+
+# THIS IS INSTRUCTION FOR TESTING 
+
+Stress, Member soft kill, CF soft kill, TB Reboot, Member and CF Reboot are trivial. Please follow any guidances provided for regular purescale
+
+Automated: 
+- Cross Site Link Failure 
+- vLAG ISL (aka Single Site Failure) 
+- Double failure in vLANG ISLs (aka Double Site Failure) 
+
+Physical: 
+- Private Ethernet Failures
+- Storage Failures on site A, B
+- Site Failures 
+- Public network (en0) Failure 
+- Single switch failure
+- Two switch faiulres - one switch from Site A & one from Site B 
+- Both switches from single site failure 
+- 3 switch failures 
